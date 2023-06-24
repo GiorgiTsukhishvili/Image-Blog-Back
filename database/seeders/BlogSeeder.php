@@ -16,6 +16,5 @@ class BlogSeeder extends Seeder
 		Blog::factory(10)->create();
 
 		BlogTag::factory(10)->create();
-
 	}
 }

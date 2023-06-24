@@ -4,15 +4,13 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-
 class BlogCollectionFactory extends Factory
 {
-
-    public function definition(): array
-    {
-        return [
-            'name' => fake()->name(),
-            'image' => null
-        ];
-    }
+	public function definition(): array
+	{
+		return [
+			'name'  => fake()->name(),
+			'image' => null,
+		];
+	}
 }
