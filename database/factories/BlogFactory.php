@@ -13,6 +13,7 @@ class BlogFactory extends Factory
 			'description' => fake()->text(),
 			'title'       => fake()->title(),
 			'image'       => asset('assets/png/bear.png'),
+			'blog_collection_id' => fake()->numberBetween(1, 10)
 		];
 	}
 }
