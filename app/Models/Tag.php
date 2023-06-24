@@ -5,19 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model
+class Tag extends Model
 {
 	use HasFactory;
 
 	protected $hidden = ['pivot'];
 
-	public function user()
+	public function blogs()
 	{
-		return $this->belongsTo(User::class);
-	}
-
-	public function tags()
-	{
-		return $this->belongsToMany(Tag::class, 'blog_tags');
+		return $this->belongsToMany(Blog::class, 'blog_tags');
 	}
 }
