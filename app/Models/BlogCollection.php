@@ -9,6 +9,8 @@ class BlogCollection extends Model
 {
 	use HasFactory;
 
+	protected $fillable = ['name', 'image'];
+
 	public function blog()
 	{
 		return $this->hasMany(Blog::class);

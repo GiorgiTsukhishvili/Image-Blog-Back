@@ -9,7 +9,7 @@ class BlogController extends Controller
 {
 	public function index(): JsonResponse
 	{
-		$blogs = Blog::with(['user:id,name', 'tags:id,name'])->get();
+		$blogs = Blog::with(['user:id,name', 'tags:id,name'])->get()->sortByDesc('created_at');
 
 		return response()->json(['blogs' => $blogs]);
 	}
