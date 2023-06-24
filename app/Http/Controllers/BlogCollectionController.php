@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogCollectionDestroyRequest;
+use App\Http\Requests\BlogCollectionPutRequest;
 use App\Http\Requests\BlogCollectionStoreRequest;
 use App\Models\BlogCollection;
 use Illuminate\Http\JsonResponse;
@@ -25,10 +27,10 @@ class BlogCollectionController extends Controller
 		$data = $request->validated();
 
 		if ($request->hasFile('image')) {
-			$text['image'] = $request->file('image')
+			$url = $request->file('image')
 			->store('images', 'public');
 
-			$data['image'] = asset('storage/' . $text['image']);
+			$data['image'] = asset('storage/' . $url);
 		} else {
 			$data['image'] = null;
 		}
@@ -38,14 +40,28 @@ class BlogCollectionController extends Controller
 		return response()->json(['message' => 'Collection created successfully'], 200);
 	}
 
-	public function put(BlogCollection $collection)
+	public function put(BlogCollectionPutRequest $request, BlogCollection $collection)
 	{
+		$data = $request->validated();
+
+		if ($request->hasFile('image')) {
+			$url = $request->file('image')->store('images', 'public');
+
+			$data['image'] = asset('storage/', $url);
+		} else {
+			$data['image'] = null;
+		}
+
+		$collection->update(['name' => $data['name'], 'image' => $data['image']]);
+		return response()->json(['message' => 'Collection updated successfully'], 200);
 	}
 
-	public function destroy(BlogCollection $collection): JsonResponse
+	public function destroy(BlogCollectionDestroyRequest $request, BlogCollection $collection): JsonResponse
 	{
+		$request->validated();
+
 		$collection->delete();
 
-		return response()->json(['message' => 'Blog deleted successfully'], 200);
+		return response()->json(['message' => 'Collection deleted successfully'], 200);
 	}
 }

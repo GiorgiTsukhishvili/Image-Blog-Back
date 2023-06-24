@@ -9,9 +9,9 @@ class BlogCollectionFactory extends Factory
 	public function definition(): array
 	{
 		return [
-			'name'  => fake()->name(),
-			'image' => null,
-			'user_id' => 1
+			'name'    => fake()->name(),
+			'image'   => null,
+			'user_id' => 1,
 		];
 	}
 }
