@@ -14,6 +14,11 @@ class BlogController extends Controller
 		return response()->json(['blogs' => $blogs]);
 	}
 
+	public function show(Blog $blog): JsonResponse
+	{
+		return response()->json($blog);
+	}
+
 	public function store()
 	{
 	}
