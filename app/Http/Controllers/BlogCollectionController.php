@@ -33,7 +33,7 @@ class BlogCollectionController extends Controller
 			$data['image'] = null;
 		}
 
-		BlogCollection::create(['name' => $data['name'], 'image' => $data['image']]);
+		BlogCollection::create(['user_id'=> auth()->user()->id, 'name' => $data['name'], 'image' => $data['image']]);
 
 		return response()->json(['message' => 'Collection created successfully'], 200);
 	}

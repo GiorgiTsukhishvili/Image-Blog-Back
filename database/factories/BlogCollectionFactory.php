@@ -11,6 +11,7 @@ class BlogCollectionFactory extends Factory
 		return [
 			'name'  => fake()->name(),
 			'image' => null,
+			'user_id' => 1
 		];
 	}
 }
