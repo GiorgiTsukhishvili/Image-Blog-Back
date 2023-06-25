@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogStoreRequest;
 use App\Models\Blog;
+use App\Models\BlogTag;
 use Illuminate\Http\JsonResponse;
 
 class BlogController extends Controller
@@ -24,6 +25,34 @@ class BlogController extends Controller
 
 	public function store(BlogStoreRequest $request): JsonResponse
 	{
+		$data = $request->validated();
+
+		if ($request->hasFile('image')) {
+			if ($request->hasFile('image')) {
+				$url = $request->file('image')->store('images', 'public');
+
+				$data['image'] = asset('storage/', $url);
+			}
+		}
+
+		$blog = Blog::create([
+			'user_id'                      => auth()->user()->id,
+			'image'                        => $data['image'],
+			'title'                        => $data['title'],
+			'description'                  => $data['description'],
+			'blog_collection_id'           => $data['blog_collection_id'],
+		]);
+
+		$tags = json_decode($request['tags']);
+
+		foreach ($tags as $tag) {
+			BlogTag::create([
+				'blog_id' => $blog->id,
+				'tag_id'  => $tag,
+			]);
+		}
+
+		return response()->json(['message' => 'Blog created successfully'], 200);
 	}
 
 	public function put(Blog $blog)

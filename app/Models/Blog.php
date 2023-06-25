@@ -11,6 +11,8 @@ class Blog extends Model
 
 	protected $hidden = ['pivot'];
 
+	protected $fillable = ['user_id', 'blog_collection_id', 'image', 'title', 'description'];
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);
