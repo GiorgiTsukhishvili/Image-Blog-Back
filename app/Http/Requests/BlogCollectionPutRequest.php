@@ -8,9 +8,9 @@ class BlogCollectionPutRequest extends FormRequest
 {
 	public function authorize(): bool
 	{
-		$blogCollectionId = $this->route('collection');
+		$blogCollection = $this->route('collection');
 
-		return $blogCollectionId->user_id === 1;
+		return $blogCollection->user_id === auth()->user()->id;
 	}
 
 	public function rules(): array

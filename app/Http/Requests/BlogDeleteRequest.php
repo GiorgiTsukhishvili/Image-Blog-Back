@@ -4,13 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BlogCollectionDestroyRequest extends FormRequest
+class BlogDeleteRequest extends FormRequest
 {
 	public function authorize(): bool
 	{
-		$blogCollection = $this->route('collection');
+		$blog = $this->route('blog');
 
-		return $blogCollection->user_id === auth()->user()->id;
+		return $blog->user_id === auth()->user()->id;
 	}
 
 	public function rules(): array

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogDeleteRequest;
 use App\Http\Requests\BlogStoreRequest;
+use App\Http\Requests\BlogUpdateRequest;
 use App\Models\Blog;
 use App\Models\BlogTag;
 use Illuminate\Http\JsonResponse;
@@ -28,11 +30,9 @@ class BlogController extends Controller
 		$data = $request->validated();
 
 		if ($request->hasFile('image')) {
-			if ($request->hasFile('image')) {
-				$url = $request->file('image')->store('images', 'public');
+			$url = $request->file('image')->store('images', 'public');
 
-				$data['image'] = asset('storage/', $url);
-			}
+			$data['image'] = asset('storage/', $url);
 		}
 
 		$blog = Blog::create([
@@ -55,12 +55,40 @@ class BlogController extends Controller
 		return response()->json(['message' => 'Blog created successfully'], 200);
 	}
 
-	public function put(Blog $blog)
+	public function put(BlogUpdateRequest $request, Blog $blog): JsonResponse
 	{
+		$data = $request->validated();
+
+		if ($request->hasFile('image')) {
+			$url = $request->file('image')->store('images', 'public');
+
+			$data['image'] = asset('storage/', $url);
+		}
+
+		$blog->update([
+			'image'                        => $data['image'],
+			'title'                        => $data['title'],
+			'description'                  => $data['description'],
+		]);
+
+		$tags = json_decode($request['tags']);
+
+		BlogTag::where('blog_id', $blog->id)->delete();
+
+		foreach ($tags as $tag) {
+			BlogTag::create([
+				'blog_id' => $blog->id,
+				'tag_id'  => $tag,
+			]);
+		}
+
+		return response()->json(['message' => 'Blog updated successfully'], 200);
 	}
 
-	public function destroy(Blog $blog): JsonResponse
+	public function destroy(BlogDeleteRequest $request, Blog $blog): JsonResponse
 	{
+		$request->validated();
+
 		$blog->delete();
 
 		return response()->json(['message' => 'Blog deleted successfully'], 200);
