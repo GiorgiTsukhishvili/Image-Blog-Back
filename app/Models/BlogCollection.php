@@ -11,7 +11,7 @@ class BlogCollection extends Model
 
 	protected $fillable = ['name', 'image', 'user_id'];
 
-	public function blog()
+	public function blogs()
 	{
 		return $this->hasMany(Blog::class);
 	}

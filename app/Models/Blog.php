@@ -23,6 +23,6 @@ class Blog extends Model
 
 	public function collection()
 	{
-		return $this->belongsTo(BlogCollection::class);
+		return $this->belongsTo(BlogCollection::class, 'blog_collection_id', 'id');
 	}
 }

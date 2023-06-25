@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogStoreRequest;
 use App\Models\Blog;
 use Illuminate\Http\JsonResponse;
 
@@ -11,15 +12,17 @@ class BlogController extends Controller
 	{
 		$blogs = Blog::with(['user:id,name', 'tags:id,name'])->get()->sortByDesc('created_at');
 
-		return response()->json(['blogs' => $blogs]);
+		return response()->json(['blogs' => $blogs], 200);
 	}
 
-	public function show(Blog $blog): JsonResponse
+	public function show($blog): JsonResponse
 	{
-		return response()->json($blog);
+		$chosenBlog = Blog::where('id', $blog)->with(['collection:id,name,image', 'tags:id,name'])->first();
+
+		return response()->json($chosenBlog, 200);
 	}
 
-	public function store()
+	public function store(BlogStoreRequest $request): JsonResponse
 	{
 	}
 
@@ -31,6 +34,6 @@ class BlogController extends Controller
 	{
 		$blog->delete();
 
-		return response()->json(['message' => 'Blog deleted successfully']);
+		return response()->json(['message' => 'Blog deleted successfully'], 200);
 	}
 }
