@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogCollectionController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,11 @@ Route::controller(BlogCollectionController::class)->group(function () {
 		Route::post('/', 'store')->name('collection.store');
 		Route::put('/{collection}', 'put')->name('collection.put');
 		Route::delete('/{collection}', 'destroy')->name('collection.destroy');
+	});
+});
+
+Route::controller(SubscribeController::class)->group(function () {
+	Route::prefix('subscribe')->group(function () {
+		Route::get('/', 'index')->name('subscribe.index');
 	});
 });
