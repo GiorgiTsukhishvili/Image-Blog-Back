@@ -15,4 +15,16 @@ class SubscribeController extends Controller
 
 		return response()->json(['subscribers' => $subscribers], 200);
 	}
+
+	public function store()
+	{
+	}
+
+	public function put()
+	{
+	}
+
+	public function destroy()
+	{
+	}
 }
