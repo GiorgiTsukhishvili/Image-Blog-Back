@@ -13,14 +13,17 @@ class BlogController extends Controller
 {
 	public function index(): JsonResponse
 	{
-		$blogs = Blog::select(['id', 'title', 'description', 'image', 'user_id'])->with(['likes:id,user_id,blog_id', 'user:id,name', 'tags:id,name'])->get()->sortByDesc('created_at');
+		$blogs = Blog::select(['id', 'title', 'description', 'image', 'user_id'])
+		->with(['likes:id,user_id,blog_id', 'user:id,name', 'tags:id,name'])
+		->get()->sortByDesc('created_at');
 
 		return response()->json(['blogs' => $blogs], 200);
 	}
 
 	public function show($blog): JsonResponse
 	{
-		$chosenBlog = Blog::where('id', $blog)->with(['collection:id,name,image', 'tags:id,name'])->first();
+		$chosenBlog = Blog::firstWhere('id', $blog)
+		->with(['collection:id,name,image', 'tags:id,name', 'likes:id,user_id,blog_id']);
 
 		return response()->json($chosenBlog, 200);
 	}

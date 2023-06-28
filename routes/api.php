@@ -41,7 +41,8 @@ Route::controller(SubscribeController::class)->group(function () {
 });
 
 Route::controller(LikeController::class)->group(function () {
-	Route::prefix('likes')->group(function () {
+	Route::prefix('like')->group(function () {
 		Route::get('/', 'index')->name('like.index');
+		Route::post('/', 'likeOrUnlike')->name('like.like_or_unlike');
 	});
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LikeOrUnlikeRequest;
 use App\Models\Like;
 use Illuminate\Http\JsonResponse;
 
@@ -15,5 +16,20 @@ class LikeController extends Controller
 		->get();
 
 		return response()->json(['likes' => $likes], 200);
+	}
+
+	public function likeOrUnlike(LikeOrUnlikeRequest $request): JsonResponse
+	{
+		$data = $request->validated();
+
+		$like = Like::firstWhere([['user_id', auth()->user()->id], ['blog_id', $data['blog_id']]]);
+
+		if (isset($like)) {
+			$like->delete();
+			return response()->json(['message' => 'Blog like removed successfully'], 200);
+		}
+
+		Like::create(['user_id' => auth()->user()->id, 'blog_id' => $data['blog_id']]);
+		return response()->json(['message' => 'Blog liked successfully'], 200);
 	}
 }
