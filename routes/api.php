@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogCollectionController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +18,9 @@ Route::controller(BlogController::class)->group(function () {
 });
 
 Route::controller(TagController::class)->group(function () {
-	Route::get('/tags', 'index')->name('tag.index');
+	Route::prefix('tags')->group(function () {
+		Route::get('/', 'index')->name('tag.index');
+	});
 });
 
 Route::controller(BlogCollectionController::class)->group(function () {
@@ -34,5 +37,11 @@ Route::controller(SubscribeController::class)->group(function () {
 	Route::prefix('subscribe')->group(function () {
 		Route::get('/', 'index')->name('subscribe.index');
 		Route::post('/', 'subscribeOrUnsubscribe')->name('subscribe.subscribe_or_unsubscribe');
+	});
+});
+
+Route::controller(LikeController::class)->group(function () {
+	Route::prefix('likes')->group(function () {
+		Route::get('/', 'index')->name('like.index');
 	});
 });

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Blog;
 use App\Models\BlogCollection;
 use App\Models\BlogTag;
+use App\Models\Like;
 use App\Models\Subscribe;
 use Illuminate\Database\Seeder;
 
@@ -19,5 +20,7 @@ class BlogSeeder extends Seeder
 		BlogTag::factory(10)->create();
 
 		Subscribe::factory(30)->create();
+
+		Like::factory(30)->create();
 	}
 }
