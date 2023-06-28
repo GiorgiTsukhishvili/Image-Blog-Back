@@ -33,8 +33,6 @@ Route::controller(BlogCollectionController::class)->group(function () {
 Route::controller(SubscribeController::class)->group(function () {
 	Route::prefix('subscribe')->group(function () {
 		Route::get('/', 'index')->name('subscribe.index');
-		Route::post('/', 'store')->name('subscribe.store');
-		Route::put('/{subscribe}', 'put')->name('subscribe.put');
-		Route::delete('/{subscribe}', 'destroy')->name('subscribe.destroy');
+		Route::post('/', 'subscribeOrUnsubscribe')->name('subscribe.subscribe_or_unsubscribe');
 	});
 });
