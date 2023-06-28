@@ -17,22 +17,19 @@ class SubscribeController extends Controller
 		return response()->json(['subscribers' => $subscribers], 200);
 	}
 
-	public function subscribeOrUnsubscribe(SubscribeOrUnsubscribeRequest $request)
+	public function subscribeOrUnsubscribe(SubscribeOrUnsubscribeRequest $request): JsonResponse
 	{
 		$data = $request->validated();
-
-		$message = '';
 
 		$subscriber = Subscribe::firstWhere([['user_id', auth()->user()->id], ['subscribed_id', $data['subscribed_id']]]);
 
 		if (isset($subscriber)) {
 			$subscriber->delete();
-			$message = 'Unsubscribed successfully';
-		} else {
-			Subscribe::create(['user_id' => auth()->user()->id, 'subscribed_id' => $data['subscribed_id']]);
-			$message = 'Subscribed successfully';
+			return response()->json(['message' => 'Unsubscribed successfully'], 200);
 		}
 
-		return response()->json(['message' => $message], 200);
+		Subscribe::create(['user_id' => auth()->user()->id, 'subscribed_id' => $data['subscribed_id']]);
+
+		return response()->json(['message' => 'Subscribed successfully'], 200);
 	}
 }
