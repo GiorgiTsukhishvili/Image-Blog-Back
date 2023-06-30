@@ -9,7 +9,7 @@ class Blog extends Model
 {
 	use HasFactory;
 
-	protected $hidden = ['pivot'];
+	protected $hidden = ['pivot', 'updated_at'];
 
 	protected $fillable = ['user_id', 'blog_collection_id', 'image', 'title', 'description'];
 
