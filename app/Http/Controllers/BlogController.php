@@ -14,7 +14,8 @@ class BlogController extends Controller
 	public function index(): JsonResponse
 	{
 		$blogs = Blog::select(['id', 'title', 'description', 'image', 'user_id'])
-		->with(['likes:id,user_id,blog_id', 'user:id,name', 'tags:id,name'])
+		->with(['user:id,name', 'tags:id,name'])
+		->withCount(['comments', 'likes'])
 		->get()->sortByDesc('created_at');
 
 		return response()->json(['blogs' => $blogs], 200);
@@ -22,8 +23,11 @@ class BlogController extends Controller
 
 	public function show($blog): JsonResponse
 	{
-		$chosenBlog = Blog::firstWhere('id', $blog)
-		->with(['collection:id,name,image', 'tags:id,name', 'likes:id,user_id,blog_id']);
+		$chosenBlog = Blog::where('id', $blog)
+		->select(['id', 'user_id', 'blog_collection_id', 'image', 'title', 'description'])
+		->with(['collection:id,name,image', 'tags:id,name', 'likes:id,user_id,blog_id', 'comments' => function ($query) {
+			return $query->select('id', 'user_id', 'comment', 'blog_id')->with('user:id,name,image');
+		}])->first();
 
 		return response()->json($chosenBlog, 200);
 	}
