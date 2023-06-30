@@ -2,13 +2,14 @@
 
 use App\Http\Controllers\BlogCollectionController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(BlogController::class)->group(function () {
-	Route::prefix('blogs')->group(function () {
+	Route::prefix('blog')->group(function () {
 		Route::get('/', 'index')->name('blog.index');
 		Route::get('/{blog}', 'show')->name('blog.show');
 		Route::post('/', 'store')->name('blog.store');
@@ -44,5 +45,11 @@ Route::controller(LikeController::class)->group(function () {
 	Route::prefix('like')->group(function () {
 		Route::get('/', 'index')->name('like.index');
 		Route::post('/', 'likeOrUnlike')->name('like.like_or_unlike');
+	});
+});
+
+Route::controller(CommentController::class)->group(function () {
+	Route::prefix('/comment')->group(function () {
+		Route::post('/', 'store')->name('comment.store');
 	});
 });
