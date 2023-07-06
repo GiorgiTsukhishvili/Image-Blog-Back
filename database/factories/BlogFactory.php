@@ -10,8 +10,8 @@ class BlogFactory extends Factory
 	{
 		return [
 			'user_id'            => 1,
-			'description'        => fake()->text(),
-			'title'              => fake()->title(),
+			'description'        => fake()->sentence(200),
+			'title'              => fake()->text(),
 			'image'              => asset('assets/png/bear.png'),
 			'blog_collection_id' => fake()->numberBetween(1, 10),
 		];
