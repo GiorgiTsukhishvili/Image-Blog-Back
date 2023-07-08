@@ -14,8 +14,8 @@ class BlogController extends Controller
 	public function index(): JsonResponse
 	{
 		$blogs = Blog::with(['user:id,name,image', 'tags:id,name'])
-		->withCount(['comments', 'likes'])
-		->get()->sortByDesc('created_at');
+		->withCount(['comments', 'likes'])->orderByDesc('created_at')
+		->paginate(10);
 
 		return response()->json(['blogs' => $blogs], 200);
 	}
