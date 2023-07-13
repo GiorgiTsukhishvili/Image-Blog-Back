@@ -25,7 +25,7 @@ class BlogController extends Controller
 		$chosenBlog = Blog::where('id', $blog)
 		->with(['collection:id,name,image', 'tags:id,name', 'likes:id,user_id,blog_id', 'comments' => function ($query) {
 			return $query->select('id', 'user_id', 'comment', 'blog_id')->with('user:id,name,image');
-		}])->first();
+		}])->firstOrFail();
 
 		return response()->json($chosenBlog, 200);
 	}
