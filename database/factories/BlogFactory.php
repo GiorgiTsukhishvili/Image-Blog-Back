@@ -9,7 +9,7 @@ class BlogFactory extends Factory
 	public function definition(): array
 	{
 		return [
-			'user_id'            => 1,
+			'user_id'            => fake()->numberBetween(1, 10),
 			'description'        => fake()->sentence(200),
 			'title'              => fake()->text(),
 			'image'              => asset('assets/png/bear.png'),

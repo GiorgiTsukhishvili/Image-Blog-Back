@@ -20,6 +20,7 @@ class User extends Authenticatable
 		'name',
 		'email',
 		'password',
+		'background_image'
 	];
 
 	protected $hidden = [
@@ -35,6 +36,11 @@ class User extends Authenticatable
 	public function blogs()
 	{
 		return $this->hasMany(Blog::class);
+	}
+
+	public function collections()
+	{
+		return $this->hasMany(BlogCollection::class);
 	}
 
 	public function subscribers()
