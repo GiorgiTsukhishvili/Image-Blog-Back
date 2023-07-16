@@ -6,6 +6,7 @@ use App\Http\Requests\BlogCollectionDestroyRequest;
 use App\Http\Requests\BlogCollectionPutRequest;
 use App\Http\Requests\BlogCollectionStoreRequest;
 use App\Models\BlogCollection;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class BlogCollectionController extends Controller
@@ -17,9 +18,15 @@ class BlogCollectionController extends Controller
 		return response()->json(['collections' => $collections], 200);
 	}
 
-	public function show(BlogCollection $collection): JsonResponse
+	public function show(User $name)
 	{
-		return response()->json($collection, 200);
+		$id = request('collection');
+
+		$desiredCollection = BlogCollection::where([['user_id', '=', $name->id], ['id', '=', $id]])
+											->with(['user:id,name,image', 'blogs:id,blog_collection_id,image,title'])
+											->firstOrFail();
+
+		return response()->json($desiredCollection, 200);
 	}
 
 	public function store(BlogCollectionStoreRequest $request): JsonResponse
