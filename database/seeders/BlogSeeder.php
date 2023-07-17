@@ -16,14 +16,14 @@ class BlogSeeder extends Seeder
 	{
 		BlogCollection::factory(10)->create();
 
-		Blog::factory(10)->create();
+		Blog::factory(30)->create();
 
-		BlogTag::factory(10)->create();
+		BlogTag::factory(60)->create();
 
 		Subscribe::factory(30)->create();
 
-		Like::factory(30)->create();
+		Like::factory(100)->create();
 
-		Comment::factory(30)->create();
+		Comment::factory(100)->create();
 	}
 }

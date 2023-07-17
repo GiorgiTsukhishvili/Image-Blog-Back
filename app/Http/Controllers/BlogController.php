@@ -23,7 +23,7 @@ class BlogController extends Controller
 	public function show($blog): JsonResponse
 	{
 		$chosenBlog = Blog::where('id', $blog)
-		->with(['collection:id,name,image', 'tags:id,name', 'likes:id,user_id,blog_id', 'user:id,name,image', 'comments' => function ($query) {
+		->with(['collection:id,name', 'tags:id,name', 'likes:id,user_id,blog_id', 'user:id,name,image', 'comments' => function ($query) {
 			return $query->select('id', 'user_id', 'comment', 'blog_id', 'created_at')->with('user:id,name,image');
 		}])->firstOrFail();
 

@@ -34,7 +34,7 @@ Route::controller(TagController::class)->group(function () {
 Route::controller(BlogCollectionController::class)->group(function () {
 	Route::prefix('collection')->group(function () {
 		Route::get('/', 'index')->name('collection.index');
-		Route::get('/{name:name}', 'show')->name('collection.show');
+		Route::get('/{user:name}', 'show')->name('collection.show');
 		Route::post('/', 'store')->name('collection.store');
 		Route::put('/{collection}', 'put')->name('collection.put');
 		Route::delete('/{collection}', 'destroy')->name('collection.destroy');

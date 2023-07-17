@@ -18,11 +18,11 @@ class BlogCollectionController extends Controller
 		return response()->json(['collections' => $collections], 200);
 	}
 
-	public function show(User $name)
+	public function show(User $user)
 	{
 		$id = request('collection');
 
-		$desiredCollection = BlogCollection::where([['user_id', '=', $name->id], ['id', '=', $id]])
+		$desiredCollection = BlogCollection::where([['user_id', $user->id], ['id', $id]])
 											->with(['user:id,name,image', 'blogs:id,blog_collection_id,image,title'])
 											->firstOrFail();
 
