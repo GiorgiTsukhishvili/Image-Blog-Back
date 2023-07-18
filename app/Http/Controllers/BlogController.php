@@ -15,7 +15,7 @@ class BlogController extends Controller
 	{
 		$blogs = Blog::with(['user:id,name,image', 'tags:id,name'])
 		->withCount(['comments', 'likes'])->orderByDesc('created_at')
-		->paginate(10);
+		->filter(request(['search']))->paginate(10);
 
 		return response()->json(['blogs' => $blogs], 200);
 	}

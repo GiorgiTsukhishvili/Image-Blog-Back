@@ -13,6 +13,13 @@ class Blog extends Model
 
 	protected $fillable = ['user_id', 'blog_collection_id', 'image', 'title', 'description'];
 
+	public function scopeFilter($query, array $filters)
+	{
+		if ($filters['search'] ?? false) {
+			return $query->where('title', 'like', '%' . $filters['search'] . '%');
+		}
+	}
+
 	public function user()
 	{
 		return $this->belongsTo(User::class);
