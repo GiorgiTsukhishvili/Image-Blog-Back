@@ -9,6 +9,10 @@ class TagSeeder extends Seeder
 {
 	public function run(): void
 	{
-		Tag::factory(10)->create();
+		$tags = config('blogTags');
+
+		foreach ($tags as $tag) {
+			Tag::factory()->create(['name' => $tag]);
+		}
 	}
 }
