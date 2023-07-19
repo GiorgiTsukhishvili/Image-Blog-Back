@@ -15,7 +15,21 @@ class Blog extends Model
 
 	public function scopeFilter($query, array $filters)
 	{
-		if ($filters['search'] ?? false) {
+		if (isset($filters['tags']) && isset($filters['search'])) {
+			$tags = explode(',', $filters['tags']);
+
+			return $query->whereHas(
+				'tags',
+				fn ($query) => $query->whereIn('name', $tags)
+			)->where('title', 'like', '%' . $filters['search'] . '%');
+		} elseif ($filters['tags'] ?? false) {
+			$tags = explode(',', $filters['tags']);
+
+			return $query->whereHas(
+				'tags',
+				fn ($query) => $query->whereIn('name', $tags)
+			);
+		} elseif ($filters['search'] ?? false) {
 			return $query->where('title', 'like', '%' . $filters['search'] . '%');
 		}
 	}
