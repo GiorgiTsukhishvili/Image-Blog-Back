@@ -11,7 +11,7 @@ class UserController extends Controller
 	{
 		$user = User::where('name', $name)
 		->select(['id', 'name', 'image', 'background_image'])
-		->withCount('subscribers')
+		->withCount(['subscribers', 'blogs'])
 		->with(['collections' => function ($query) {
 			return $query->select(['id', 'user_id', 'image', 'name'])->withCount('blogs');
 		}])->firstOrFail();
