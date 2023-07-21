@@ -18,6 +18,7 @@ class UserFactory extends Factory
 			'remember_token'    => Str::random(10),
 			'image'             => asset('assets/png/bear.png'),
 			'google_id'         => null,
+			'description'       => fake()->sentence(200),
 		];
 	}
 
