@@ -38,4 +38,9 @@ class UserStateController extends Controller
 
 		return response()->json(['message' => 'User logged out successfully'], 201);
 	}
+
+	public function userInfo(): JsonResponse
+	{
+		return response()->json(auth()->user(), 201);
+	}
 }

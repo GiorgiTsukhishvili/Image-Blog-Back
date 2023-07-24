@@ -21,6 +21,7 @@ Route::controller(UserStateController::class)->group(function () {
 		Route::post('/login', 'login')->name('user_state.login');
 		Route::middleware('auth:sanctum')->group(function () {
 			Route::get('/logout', 'logout')->name('user_state.logout');
+			Route::get('/user-info', 'userInfo')->name('user_state.user_info');
 		});
 	});
 });
