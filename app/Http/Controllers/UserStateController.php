@@ -13,7 +13,13 @@ class UserStateController extends Controller
 	{
 		$data = $request->validated();
 
-		$user = User::where('name', $data['name'])->firstOrFail();
+		$login_type = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
+		if ($login_type === 'email') {
+			$user = User::where('email', $data['login'])->firstOrFail();
+		} elseif ($login_type === 'name') {
+			$user = User::where('name', $data['login'])->firstOrFail();
+		}
 
 		if ($user->email_verified_at === null) {
 			return response()->json(['message' => 'Email is not verified'], 422);

@@ -9,8 +9,8 @@ class UserLoginRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'name'     => 'required|min:3',
-			'password' => 'required|min:8',
+			'login'     => 'required|min:3',
+			'password'  => 'required|min:8',
 		];
 	}
 }
