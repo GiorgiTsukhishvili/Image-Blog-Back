@@ -12,12 +12,12 @@ class CommentController extends Controller
 	{
 		$data = $request->validated();
 
-		Comment::create([
+		$comment = Comment::create([
 			'user_id' => auth()->user()->id,
 			'blog_id' => $data['blog_id'],
 			'comment' => $data['comment'],
 		]);
 
-		return response()->json(['message' => 'Comment added successfully'], 200);
+		return response()->json($comment, 200);
 	}
 }
