@@ -21,14 +21,14 @@ class SubscribeController extends Controller
 	{
 		$data = $request->validated();
 
-		$subscriber = Subscribe::firstWhere([['user_id', auth()->user()->id], ['subscribed_id', $data['subscribed_id']]]);
+		$subscriber = Subscribe::firstWhere([['user_id', $data['subscribed_to']], ['subscribed_id', auth()->user()->id]]);
 
 		if (isset($subscriber)) {
 			$subscriber->delete();
 			return response()->json(['message' => 'Unsubscribed successfully'], 200);
 		}
 
-		Subscribe::create(['user_id' => auth()->user()->id, 'subscribed_id' => $data['subscribed_id']]);
+		Subscribe::create(['user_id'=> $data['subscribed_to'], 'subscribed_id' => auth()->user()->id]);
 
 		return response()->json(['message' => 'Subscribed successfully'], 200);
 	}
