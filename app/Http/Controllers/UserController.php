@@ -11,10 +11,10 @@ class UserController extends Controller
 	{
 		$user = User::where('name', $name)
 		->select(['id', 'name', 'image', 'background_image', 'description'])
-		->withCount(['subscribers', 'blogs'])
+		->withCount('blogs')
 		->with(['collections' => function ($query) {
 			return $query->select(['id', 'user_id', 'image', 'name'])->withCount('blogs');
-		}])->firstOrFail();
+		}, 'subscribers'])->firstOrFail();
 
 		return response()->json($user, 200);
 	}
