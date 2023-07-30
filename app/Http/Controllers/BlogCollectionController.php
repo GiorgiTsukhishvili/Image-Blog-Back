@@ -24,7 +24,7 @@ class BlogCollectionController extends Controller
 
 		$desiredCollection = BlogCollection::where([['user_id', $user->id], ['id', $id]])
 							->with(['user' => function ($query) {
-								return $query->select(['id', 'name', 'image'])->withCount(['subscribers', 'blogs']);
+								return $query->select(['id', 'name', 'image'])->withCount('blogs')->with('subscribers');
 							}, 'blogs:id,blog_collection_id,image,title'])
 							->firstOrFail();
 
