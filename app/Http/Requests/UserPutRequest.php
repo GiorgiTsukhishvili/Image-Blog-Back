@@ -8,9 +8,9 @@ class UserPutRequest extends FormRequest
 {
 	public function authorize(): bool
 	{
-		$user = $this->route('id');
+		$id = $this->route('id');
 
-		return auth()->user()->id === $user->id;
+		return auth()->user()->id == $id;
 	}
 
 	public function rules(): array

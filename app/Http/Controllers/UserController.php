@@ -20,7 +20,36 @@ class UserController extends Controller
 		return response()->json($user, 200);
 	}
 
-	public function put($id, UserPutRequest $request)
+	public function put($id, UserPutRequest $request): JsonResponse
 	{
+		$data = $request->validated();
+
+		$user = User::firstWhere('id', $id);
+
+		if (isset($user)) {
+			if ($request->hasFile('image')) {
+				$image['image'] = $request->file('image')
+				->store('images', 'public');
+
+				$user->image = asset('storage/' . $image['image']);
+			}
+
+			if ($request->hasFile('background_image')) {
+				$backgroundImage['background_image'] = $request->file('background_image')
+				->store('images', 'public');
+
+				$user->background_image = asset('storage/' . $backgroundImage['background_image']);
+			}
+
+			$user->name = $data['name'];
+
+			$user->description = $data['description'];
+
+			$user->save();
+
+			return response()->json($user, 201);
+		}
+
+		return response()->json(['message' => 'User not found', 401]);
 	}
 }
