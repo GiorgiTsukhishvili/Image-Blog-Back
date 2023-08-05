@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserPutRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
@@ -19,7 +20,7 @@ class UserController extends Controller
 		return response()->json($user, 200);
 	}
 
-	public function put($id)
+	public function put($id, UserPutRequest $request)
 	{
 	}
 }
