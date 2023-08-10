@@ -102,4 +102,12 @@ class BlogController extends Controller
 
 		return response()->json(['message' => 'Blog deleted successfully'], 200);
 	}
+
+	public function showUserBlogs()
+	{
+		$chosenBlog = Blog::where('user_id', auth()->user()->id)
+		->with(['collection:id,name', 'tags:id,name', 'likes:id,user_id,blog_id'])->get();
+
+		return response()->json($chosenBlog, 200);
+	}
 }

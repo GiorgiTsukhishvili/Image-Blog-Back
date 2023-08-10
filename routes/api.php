@@ -35,6 +35,7 @@ Route::controller(BlogController::class)->group(function () {
 			Route::post('/', 'store')->name('blog.store');
 			Route::put('/{blog}', 'put')->name('blog.put');
 			Route::delete('/{blog}', 'destroy')->name('blog.destroy');
+			Route::get('/user/blogs', 'showUserBlogs')->name('blog.show_user_blogs');
 		});
 	});
 });
@@ -53,7 +54,7 @@ Route::controller(BlogCollectionController::class)->group(function () {
 			Route::post('/', 'store')->name('collection.store');
 			Route::put('/{collection}', 'put')->name('collection.put');
 			Route::delete('/{collection}', 'destroy')->name('collection.destroy');
-			Route::get('/user/collection', 'showUserCollection')->name('collection.show_user_collection');
+			Route::get('/user/collections', 'showUserCollections')->name('collection.show_user_collections');
 		});
 	});
 });

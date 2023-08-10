@@ -74,12 +74,10 @@ class BlogCollectionController extends Controller
 		return response()->json(['message' => 'Collection deleted successfully'], 200);
 	}
 
-	public function showUserCollection()
+	public function showUserCollections()
 	{
 		$desiredCollection = BlogCollection::where('user_id', auth()->user()->id)
-		->with(['user' => function ($query) {
-			return $query->select(['id', 'name', 'image'])->withCount('blogs')->with('subscribers');
-		}, 'blogs:id,blog_collection_id,image,title'])->get();
+		->with('blogs:id,blog_collection_id,image,title')->get();
 
 		return response()->json($desiredCollection, 200);
 	}
