@@ -77,7 +77,7 @@ class BlogCollectionController extends Controller
 	public function showUserCollections()
 	{
 		$desiredCollection = BlogCollection::where('user_id', auth()->user()->id)
-		->with('blogs:id,blog_collection_id,image,title')->get();
+		->withCount('blogs')->get();
 
 		return response()->json($desiredCollection, 200);
 	}
