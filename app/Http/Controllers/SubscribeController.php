@@ -17,6 +17,15 @@ class SubscribeController extends Controller
 		return response()->json(['subscribers' => $subscribers], 200);
 	}
 
+	public function userSubscribers(): JsonResponse
+	{
+		$subscribers = Subscribe::where('subscribed_id', auth()->user()->id)
+		->with('user:id,name,image')
+		->get(['id', 'subscribed_id', 'user_id']);
+
+		return response()->json(['subscribers' => $subscribers], 200);
+	}
+
 	public function subscribeOrUnsubscribe(SubscribeOrUnsubscribeRequest $request): JsonResponse
 	{
 		$data = $request->validated();

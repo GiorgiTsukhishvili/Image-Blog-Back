@@ -61,9 +61,10 @@ Route::controller(BlogCollectionController::class)->group(function () {
 
 Route::controller(SubscribeController::class)->group(function () {
 	Route::prefix('subscribe')->group(function () {
-		Route::get('/', 'index')->name('subscribe.index');
 		Route::middleware('auth:sanctum')->group(function () {
 			Route::post('/', 'subscribeOrUnsubscribe')->name('subscribe.subscribe_or_unsubscribe');
+			Route::get('/', 'index')->name('subscribe.index');
+			Route::get('/subscribers', 'userSubscribers')->name('subscribe.user_subscribers');
 		});
 	});
 });
