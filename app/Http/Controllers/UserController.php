@@ -83,4 +83,8 @@ class UserController extends Controller
 
 		return response()->json(['message' => 'User not found', 401]);
 	}
+
+	public function verify()
+	{
+	}
 }
