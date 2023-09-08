@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserPutRequest;
 use App\Http\Requests\UserStoreRequest;
+use App\Mail\UserRegistrationEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -31,6 +33,8 @@ class UserController extends Controller
 			'password'  => bcrypt($data['password']),
 			'image'     => asset('assets/png/bear.png'),
 		]);
+
+		Mail::to($user->email)->send(new UserRegistrationEmail('sd', $user->name));
 
 		return response()->json(['message' => 'User created successfully'], 201);
 	}
