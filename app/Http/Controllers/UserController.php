@@ -25,7 +25,14 @@ class UserController extends Controller
 	{
 		$data = $request->validated();
 
-		return response()->json($data);
+		$user = User::create([
+			'name'      => $data['name'],
+			'email'     => $data['email'],
+			'password'  => bcrypt($data['password']),
+			'image'     => asset('assets/png/bear.png'),
+		]);
+
+		return response()->json(['message' => 'User created successfully'], 201);
 	}
 
 	public function put($id, UserPutRequest $request): JsonResponse
