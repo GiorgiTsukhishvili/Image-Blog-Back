@@ -8,6 +8,7 @@ use App\Mail\UserRegistrationEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
@@ -27,14 +28,25 @@ class UserController extends Controller
 	{
 		$data = $request->validated();
 
+		$token = sha1(time());
+
 		$user = User::create([
-			'name'      => $data['name'],
-			'email'     => $data['email'],
-			'password'  => bcrypt($data['password']),
-			'image'     => asset('assets/png/bear.png'),
+			'name'               => $data['name'],
+			'email'              => $data['email'],
+			'password'           => bcrypt($data['password']),
+			'image'              => asset('assets/png/bear.png'),
+			'verification_token' => $token,
 		]);
 
-		Mail::to($user->email)->send(new UserRegistrationEmail('sd', $user->name));
+		$route = URL::temporarySignedRoute(
+			'user.verify',
+			now()->addMinutes(30),
+			['token' => $token],
+		);
+
+		$frontUrl = config('app.front-url') . '?register-link=' . $route;
+
+		Mail::to($user->email)->send(new UserRegistrationEmail($frontUrl, $user->name));
 
 		return response()->json(['message' => 'User created successfully'], 201);
 	}

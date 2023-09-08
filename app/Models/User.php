@@ -22,6 +22,7 @@ class User extends Authenticatable
 		'password',
 		'background_image',
 		'image',
+		'verification_token',
 	];
 
 	protected $hidden = [

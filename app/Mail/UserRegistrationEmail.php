@@ -23,7 +23,7 @@ class UserRegistrationEmail extends Mailable
 	public function envelope(): Envelope
 	{
 		return new Envelope(
-            from: new Address('support@imageechoes.ge', 'Image Echoes Support'),
+			from: new Address('support@imageechoes.ge', 'Image Echoes Support'),
 			subject: 'User Registration Email',
 		);
 	}
