@@ -18,6 +18,6 @@ class Subscribe extends Model
 
 	public function subscribes()
 	{
-		return $this->hasMany(User::class, 'id', 'subscribed_id');
+		return $this->belongsTo(User::class, 'subscribed_id', 'id');
 	}
 }
