@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserPutRequest;
+use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
@@ -18,6 +19,13 @@ class UserController extends Controller
 		}, 'subscribers'])->firstOrFail();
 
 		return response()->json($user, 200);
+	}
+
+	public function store(UserStoreRequest $request): JsonResponse
+	{
+		$data = $request->validated();
+
+		return response()->json($data);
 	}
 
 	public function put($id, UserPutRequest $request): JsonResponse
