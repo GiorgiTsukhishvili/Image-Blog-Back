@@ -7,6 +7,7 @@ use App\Http\Requests\UserStoreRequest;
 use App\Mail\UserRegistrationEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -84,13 +85,17 @@ class UserController extends Controller
 		return response()->json(['message' => 'User not found', 401]);
 	}
 
-	public function verify($request): JsonResponse
+	public function verify(Request $request): JsonResponse
 	{
 		if ($request->hasValidSignature(false)) {
 			abort(401);
 		}
 
 		$user = User::firstWhere('verification_token', $request->token);
+
+		if ($user->email_verified_at) {
+			return response()->json('email is already verified', 422);
+		}
 
 		$user->email_verified_at = now();
 
