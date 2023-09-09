@@ -44,7 +44,7 @@ class UserController extends Controller
 			['token' => $token],
 		);
 
-		$frontUrl = config('app.front-url') . '?register-link=' . $route;
+		$frontUrl = config('app.front-url') . '?type=register&register-link=' . $route;
 
 		Mail::to($user->email)->send(new UserRegistrationEmail($frontUrl, $user->name));
 
@@ -84,7 +84,18 @@ class UserController extends Controller
 		return response()->json(['message' => 'User not found', 401]);
 	}
 
-	public function verify()
+	public function verify($request): JsonResponse
 	{
+		if ($request->hasValidSignature(false)) {
+			abort(401);
+		}
+
+		$user = User::firstWhere('verification_token', $request->token);
+
+		$user->email_verified_at = now();
+
+		$user->save();
+
+		return response()->json(['message' => 'email updated successfully']);
 	}
 }
