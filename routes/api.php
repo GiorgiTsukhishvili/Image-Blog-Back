@@ -15,6 +15,7 @@ Route::controller(UserController::class)->group(function () {
 		Route::get('/verify-email', 'verify')->name('user.verify');
 		Route::get('/{name}', 'show')->name('user.show');
 		Route::post('/', 'store')->name('user.store');
+		Route::post('/password-reset', 'passwordReset')->name('user.password_reset');
 		Route::post('/password-email', 'passwordEmail')->name('user.password_email');
 		Route::put('/{id}', 'put')->name('user.put');
 	});

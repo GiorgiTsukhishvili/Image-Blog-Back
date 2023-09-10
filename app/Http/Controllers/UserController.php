@@ -94,8 +94,22 @@ class UserController extends Controller
 		if (!isset($user->email_verified_at)) {
 			return response()->json(['message' => 'email is not verified'], 404);
 		}
+		
+		$token = sha1(time());
 
-		Mail::to($user->email)->send(new PasswordResetEmail('', $user->name));
+		$user->verification_token = $token;
+
+		$user->save();
+
+		$route = URL::temporarySignedRoute(
+			'user.password_reset',
+			now()->addMinutes(30),
+			['token' => $token],
+		);
+
+		$frontUrl = config('app.front-url') . '?type=reset&reset-link=' . $route;
+
+		Mail::to($user->email)->send(new PasswordResetEmail($frontUrl, $user->name));
 
 		return response()->json(['message' => 'email sent successfully'], 200);
 	}
@@ -117,5 +131,11 @@ class UserController extends Controller
 		$user->save();
 
 		return response()->json(['message' => 'email updated successfully']);
+	}
+
+
+	public function passwordReset(Request $request): JsonResponse
+	{
+		return response()->json(['message' => 'password reset successfully']);
 	}
 }
