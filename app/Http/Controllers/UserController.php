@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PasswordEmailRequest;
+use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Mail\PasswordResetEmail;
@@ -94,7 +95,7 @@ class UserController extends Controller
 		if (!isset($user->email_verified_at)) {
 			return response()->json(['message' => 'email is not verified'], 404);
 		}
-		
+
 		$token = sha1(time());
 
 		$user->verification_token = $token;
@@ -120,7 +121,7 @@ class UserController extends Controller
 			abort(401);
 		}
 
-		$user = User::firstWhere('verification_token', $request->token);
+		$user = User::where('verification_token', $request->token)->firstOrFail();
 
 		if ($user->email_verified_at) {
 			return response()->json('email is already verified', 422);
@@ -133,9 +134,18 @@ class UserController extends Controller
 		return response()->json(['message' => 'email updated successfully']);
 	}
 
-
-	public function passwordReset(Request $request): JsonResponse
+	public function passwordReset(PasswordResetRequest $request): JsonResponse
 	{
-		return response()->json(['message' => 'password reset successfully']);
+		if ($request->hasValidSignature(false)) {
+			abort(401);
+		}
+
+		$user = User::where('verification_token', $request->token)->firstOrFail();
+
+		$user->password = bcrypt($request->password);
+
+		$user->save();
+
+		return response()->json('User password changed successfully', 201);
 	}
 }
