@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PasswordEmailRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Http\Requests\UserStoreRequest;
+use App\Mail\PasswordResetEmail;
 use App\Mail\UserRegistrationEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -88,6 +89,14 @@ class UserController extends Controller
 
 	public function passwordEmail(PasswordEmailRequest $request): JsonResponse
 	{
+		$user = User::where('email', $request->email)->firstOrFail();
+
+		if (!isset($user->email_verified_at)) {
+			return response()->json(['message' => 'email is not verified'], 404);
+		}
+
+		Mail::to($user->email)->send(new PasswordResetEmail('', $user->name));
+
 		return response()->json(['message' => 'email sent successfully'], 200);
 	}
 
