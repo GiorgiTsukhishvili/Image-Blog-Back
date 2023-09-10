@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasswordEmailRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Mail\UserRegistrationEmail;
@@ -83,6 +84,11 @@ class UserController extends Controller
 		}
 
 		return response()->json(['message' => 'User not found', 401]);
+	}
+
+	public function passwordEmail(PasswordEmailRequest $request): JsonResponse
+	{
+		return response()->json(['message' => 'email sent successfully'], 200);
 	}
 
 	public function verify(Request $request): JsonResponse
