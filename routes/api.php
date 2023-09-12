@@ -8,14 +8,18 @@ use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserStateController;
+use App\Http\Controllers\UserVerificationController;
 use Illuminate\Support\Facades\Route;
 
-Route::controller(UserController::class)->group(function () {
-	Route::prefix('user')->group(function () {
+Route::prefix('user')->group(function () {
+	Route::controller(UserVerificationController::class)->group(function () {
 		Route::get('/verify-email', 'verify')->name('user.verify');
+		Route::post('/password-reset', 'passwordReset')->name('user.password_reset');
+	});
+
+	Route::controller(UserController::class)->group(function () {
 		Route::get('/{name}', 'show')->name('user.show');
 		Route::post('/', 'store')->name('user.store');
-		Route::post('/password-reset', 'passwordReset')->name('user.password_reset');
 		Route::post('/password-email', 'passwordEmail')->name('user.password_email');
 		Route::put('/{id}', 'put')->name('user.put');
 	});
