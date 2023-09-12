@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PasswordEmailRequest;
+use App\Http\Requests\PasswordUserRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Mail\PasswordResetEmail;
@@ -113,5 +114,10 @@ class UserController extends Controller
 		return response()->json(['message' => 'email sent successfully'], 200);
 	}
 
-	public function passwordUser(){}
+	public function passwordUser(PasswordUserRequest $request): JsonResponse
+	{
+		$data = $request->validated();
+
+		return response()->json(['message' => 'password updated'], 201);
+	}
 }
