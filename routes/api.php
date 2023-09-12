@@ -21,6 +21,7 @@ Route::prefix('user')->group(function () {
 		Route::get('/{name}', 'show')->name('user.show');
 		Route::post('/', 'store')->name('user.store');
 		Route::post('/password-email', 'passwordEmail')->name('user.password_email');
+		Route::post('/password-user', 'passwordUser')->name('user.password_user');
 		Route::put('/{id}', 'put')->name('user.put');
 	});
 });
