@@ -10,6 +10,7 @@ use App\Mail\PasswordResetEmail;
 use App\Mail\UserRegistrationEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
@@ -118,6 +119,16 @@ class UserController extends Controller
 	{
 		$data = $request->validated();
 
-		return response()->json(['message' => 'password updated'], 201);
+		$user = User::firstWhere('id', auth()->user()->id);
+
+		if (!Hash::check($data['current_password'], $user->password)) {
+			return response()->json(['message' => 'current password is incorrect'], 403);
+		}
+
+		$user->password = bcrypt($data['new_password']);
+
+		$user->save();
+
+		return response()->json(['message' => 'password changed successfully'], 201);
 	}
 }
