@@ -44,9 +44,15 @@ class BlogCollectionController extends Controller
 			$data['image'] = null;
 		}
 
-		BlogCollection::create(['user_id'=> auth()->user()->id, 'name' => $data['name'], 'image' => $data['image']]);
+		$collection = BlogCollection::create(
+			[
+				'user_id'=> auth()->user()->id,
+				'name'   => $data['name'],
+				'image'  => $data['image'],
+			]
+		);
 
-		return response()->json(['message' => 'Collection created successfully'], 200);
+		return response()->json(['data' => $collection], 200);
 	}
 
 	public function put(BlogCollectionPutRequest $request, BlogCollection $collection)
@@ -56,13 +62,12 @@ class BlogCollectionController extends Controller
 		if ($request->hasFile('image')) {
 			$url = $request->file('image')->store('images', 'public');
 
-			$data['image'] = asset('storage/', $url);
-		} else {
-			$data['image'] = null;
+			$data['image'] = asset('storage/' . $url);
 		}
 
-		$collection->update(['name' => $data['name'], 'image' => $data['image']]);
-		return response()->json(['message' => 'Collection updated successfully'], 200);
+		$collection->update(['name' => $data['name'], 'image' => $data['image'] ?? null]);
+
+		return response()->json(['data' => $collection], 200);
 	}
 
 	public function destroy(BlogCollectionDestroyRequest $request, BlogCollection $collection): JsonResponse
@@ -77,7 +82,7 @@ class BlogCollectionController extends Controller
 	public function showUserCollections()
 	{
 		$desiredCollection = BlogCollection::where('user_id', auth()->user()->id)
-		->withCount('blogs')->get();
+		->withCount('blogs')->orderByDesc('created_at')->get();
 
 		return response()->json($desiredCollection, 200);
 	}

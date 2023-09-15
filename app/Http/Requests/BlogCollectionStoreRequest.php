@@ -10,7 +10,7 @@ class BlogCollectionStoreRequest extends FormRequest
 	{
 		return [
 			'name'  => 'required|string',
-			'image' => 'file',
+			'image' => 'nullable',
 		];
 	}
 }
