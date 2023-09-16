@@ -41,7 +41,7 @@ class BlogController extends Controller
 		if ($request->hasFile('image')) {
 			$url = $request->file('image')->store('images', 'public');
 
-			$data['image'] = asset('storage/', $url);
+			$data['image'] = asset('storage/' . $url);
 		}
 
 		$blog = Blog::create([
@@ -71,7 +71,7 @@ class BlogController extends Controller
 		if ($request->hasFile('image')) {
 			$url = $request->file('image')->store('images', 'public');
 
-			$data['image'] = asset('storage/', $url);
+			$data['image'] = asset('storage/' . $url);
 		}
 
 		$blog->update([
