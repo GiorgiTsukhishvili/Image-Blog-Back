@@ -18,7 +18,7 @@ class BlogCollectionController extends Controller
 		return response()->json(['collections' => $collections], 200);
 	}
 
-	public function show(User $user)
+	public function show(User $user): JsonResponse
 	{
 		$id = request('collection');
 
@@ -55,7 +55,7 @@ class BlogCollectionController extends Controller
 		return response()->json(['data' => $collection], 200);
 	}
 
-	public function put(BlogCollectionPutRequest $request, BlogCollection $collection)
+	public function put(BlogCollectionPutRequest $request, BlogCollection $collection): JsonResponse
 	{
 		$data = $request->validated();
 
