@@ -9,7 +9,6 @@ class BlogStoreRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'user_id'           => 'required|integer',
 			'image'             => 'required|file',
 			'title'             => 'required|string',
 			'description'       => 'required|string',

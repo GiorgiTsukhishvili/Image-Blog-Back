@@ -61,7 +61,7 @@ class BlogController extends Controller
 			]);
 		}
 
-		return response()->json(['message' => 'Blog created successfully'], 200);
+		return response()->json(['data' => $blog], 200);
 	}
 
 	public function put(BlogUpdateRequest $request, Blog $blog): JsonResponse
@@ -106,7 +106,8 @@ class BlogController extends Controller
 	public function showUserBlogs()
 	{
 		$chosenBlog = Blog::where('user_id', auth()->user()->id)
-		->with(['collection:id,name', 'tags:id,name', 'likes:id,user_id,blog_id'])->get();
+		->with(['collection:id,name', 'tags:id,name', 'likes:id,user_id,blog_id'])
+		->orderByDesc('created_at')->get();
 
 		return response()->json($chosenBlog, 200);
 	}
