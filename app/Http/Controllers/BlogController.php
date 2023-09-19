@@ -106,8 +106,7 @@ class BlogController extends Controller
 	public function showUserBlogs()
 	{
 		$chosenBlog = Blog::where('user_id', auth()->user()->id)
-		->with(['collection:id,name', 'tags:id,name', 'likes:id,user_id,blog_id'])
-		->orderByDesc('created_at')->get();
+		->with('tags:id,name')->orderByDesc('created_at')->get();
 
 		return response()->json($chosenBlog, 200);
 	}
