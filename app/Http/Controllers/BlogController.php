@@ -31,6 +31,8 @@ class BlogController extends Controller
 				return $query->select('id', 'user_id', 'comment', 'blog_id', 'created_at')->orderByDesc('created_at')->with('user:id,name,image');
 			}])->firstOrFail();
 
+		$chosenBlog->update(['views' => $chosenBlog->views++]);
+
 		return response()->json($chosenBlog, 200);
 	}
 
@@ -91,7 +93,7 @@ class BlogController extends Controller
 			]);
 		}
 
-		return response()->json(['message' => 'Blog updated successfully'], 200);
+		return response()->json(['data' => $blog], 200);
 	}
 
 	public function destroy(BlogDeleteRequest $request, Blog $blog): JsonResponse
