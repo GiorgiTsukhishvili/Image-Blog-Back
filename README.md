@@ -22,7 +22,7 @@ Image Echoes Back is app where users can share images from your life. You can su
 
 ### Prerequisites
 
--   <img src="readme/assets/php.svg" width="35" style="position: relative; top: 4px" /> *PHP@8.02 and up*
+-   <img src="readme/assets/php.svg" width="35" style="position: relative; top: 4px" /> *PHP@8.1 and up*
 -   <img src="readme/assets/mysql.png" width="35" style="position: relative; top: 4px" /> _MYSQL@8 and up_
 -   <img src="readme/assets/npm.png" width="35" style="position: relative; top: 4px" /> _npm@6 and up_
 -   <img src="readme/assets/composer.png" width="35" style="position: relative; top: 6px" /> _composer@2 and up_
@@ -31,7 +31,7 @@ Image Echoes Back is app where users can share images from your life. You can su
 
 ### Tech Stack
 
--   <img src="readme/assets/laravel.png" height="18" style="position: relative; top: 4px" /> [Laravel@9.x](https://laravel.com/docs/9.x) - back-end framework
+-   <img src="readme/assets/laravel.png" height="18" style="position: relative; top: 4px" /> [Laravel@10.10](https://laravel.com/docs/9.x) - back-end framework
 -   <img src="readme/assets/vite.png" height="18" style="position: relative; top: 4px; width: 18px" /> [Vite](https://vitejs.dev/guide/) - rapid development tool
 
 #
