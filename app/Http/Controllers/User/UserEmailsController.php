@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordEmailRequest;
 use App\Http\Requests\UpdateEmailRequest;
 use App\Mail\PasswordResetEmail;
+use App\Mail\UpdateMailEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
@@ -59,15 +60,32 @@ class UserEmailsController extends Controller
 		$user->save();
 
 		$route = URL::temporarySignedRoute(
-			'user.update_email',
+			'user.change_email',
 			now()->addMinutes(30),
 			['token' => $token],
 		);
 
-		$frontUrl = config('app.front-url') . 'settings?type=reset&reset-link=' . $route;
+		$frontUrl = config('app.front-url') . 'settings?type=email&email-link=' . $route . '&email=' . $data['email'];
 
-		Mail::to($user->email)->send(new PasswordResetEmail($frontUrl, $user->name));
+		Mail::to($data['email'])->send(new UpdateMailEmail($frontUrl, $user->name));
 
 		return response()->json(['message' => 'Update email was sent'], 200);
+	}
+
+	public function changeEmail(UpdateEmailRequest $request): JsonResponse
+	{
+		if ($request->hasValidSignature(false)) {
+			abort(401);
+		}
+
+		$data = $request->validated();
+
+		$user = User::firstWhere('id', auth()->user()->id);
+
+		$user->email = $data['email'];
+
+		$user->save();
+
+		return response()->json(['email' => $data['email']], 201);
 	}
 }

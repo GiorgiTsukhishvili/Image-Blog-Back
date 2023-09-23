@@ -18,16 +18,17 @@ Route::prefix('user')->group(function () {
 		Route::post('/password-reset', 'passwordReset')->name('user.password_reset');
 	});
 
+	Route::controller(UserEmailsController::class)->group(function () {
+		Route::post('/password-email', 'passwordEmail')->name('user.password_email');
+		Route::post('/update-email', 'updateEmail')->name('user.update_email');
+		Route::get('/change-email', 'changeEmail')->name('user.change_email');
+	});
+
 	Route::controller(UserController::class)->group(function () {
 		Route::get('/{name}', 'show')->name('user.show');
 		Route::post('/', 'store')->name('user.store');
 		Route::post('/password-user', 'passwordUser')->name('user.password_user');
 		Route::put('/{id}', 'put')->name('user.put');
-	});
-
-	Route::controller(UserEmailsController::class)->group(function () {
-		Route::post('/password-email', 'passwordEmail')->name('user.password_email');
-		Route::post('/update-email', 'updateEmail')->name('user.update_email');
 	});
 });
 
