@@ -50,6 +50,24 @@ class UserEmailsController extends Controller
 			abort(403, 'Email is already in use');
 		}
 
-		return response()->json(['message' => 'Update email was sent'], 201);
+		$token = sha1(time());
+
+		$user = User::firstWhere('id', auth()->user()->id);
+
+		$user->verification_token = $token;
+
+		$user->save();
+
+		$route = URL::temporarySignedRoute(
+			'user.update_email',
+			now()->addMinutes(30),
+			['token' => $token],
+		);
+
+		$frontUrl = config('app.front-url') . 'settings?type=reset&reset-link=' . $route;
+
+		Mail::to($user->email)->send(new PasswordResetEmail($frontUrl, $user->name));
+
+		return response()->json(['message' => 'Update email was sent'], 200);
 	}
 }
