@@ -22,6 +22,7 @@ Route::prefix('user')->group(function () {
 		Route::post('/', 'store')->name('user.store');
 		Route::post('/password-email', 'passwordEmail')->name('user.password_email');
 		Route::post('/password-user', 'passwordUser')->name('user.password_user');
+		Route::post('/update-email', 'updateEmail')->name('user.update_email');
 		Route::put('/{id}', 'put')->name('user.put');
 	});
 });

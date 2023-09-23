@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PasswordEmailRequest;
 use App\Http\Requests\PasswordUserRequest;
+use App\Http\Requests\UpdateEmailRequest;
 use App\Http\Requests\UserPutRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Mail\PasswordResetEmail;
@@ -130,5 +131,10 @@ class UserController extends Controller
 		$user->save();
 
 		return response()->json(['message' => 'password changed successfully'], 201);
+	}
+
+	public function updateEmail(UpdateEmailRequest $request): JsonResponse
+	{
+		return response()->json(['message' => 'Update email was sent'], 201);
 	}
 }
