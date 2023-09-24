@@ -17,13 +17,19 @@ class UserStateController extends Controller
 		$login_type = filter_var($request->input('login'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
 		if ($login_type === 'email') {
-			$user = User::where('email', $data['login'])->firstOrFail();
+			$user = User::firstWhere('email', $data['login']);
 		} elseif ($login_type === 'name') {
-			$user = User::where('name', $data['login'])->firstOrFail();
+			$user = User::firstWhere('name', $data['login']);
+		}
+
+		if (!isset($user)) {
+			return response()->json(['message' => 'Username or Password is incorrect.'], 401);
 		}
 
 		if ($user->email_verified_at === null) {
-			return response()->json(['message' => 'Email is not verified'], 422);
+			$user->sendEmailVerificationMail();
+
+			return response()->json(['message' => 'Email is not verified. New verification Email was sent.'], 401);
 		}
 
 		if (auth()->validate(['id' => $user->id, 'password' => ($data['password'])])) {
@@ -34,7 +40,7 @@ class UserStateController extends Controller
 			return response()->json(['user' => auth()->user()], 201);
 		}
 
-		return response()->json(['message' => 'Login info invalid'], 401);
+		return response()->json(['message' => 'Username or Password is incorrect.'], 401);
 	}
 
 	public function logout(): JsonResponse
