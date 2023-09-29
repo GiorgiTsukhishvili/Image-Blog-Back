@@ -42,7 +42,7 @@ Image Echoes Back is app where users can share images from your life. You can su
 from github:
 
 ```sh
-git clone git@github.com:RedberryInternship/tsukho-epic-movie-quotes-back.git
+git clone git@github.com:GiorgiTsukhishvili/Image-Echoes-Back.git
 ```
 
 2\. Next step requires you to run _composer install_ in order to install all the dependencies.
