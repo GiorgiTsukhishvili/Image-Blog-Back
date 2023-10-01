@@ -4,11 +4,10 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Mail\UserRegistrationEmail;
+use App\Jobs\MailJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -55,7 +54,7 @@ class User extends Authenticatable
 
 		$frontUrl = config('app.front-url') . '?type=register&register-link=' . $route;
 
-		Mail::to($this->email)->send(new UserRegistrationEmail($frontUrl, $this->name));
+		dispatch(new MailJob($this->email, $frontUrl, $this->name, 'App\Mail\UserRegistrationEmail'));
 	}
 
 	public function blogs()

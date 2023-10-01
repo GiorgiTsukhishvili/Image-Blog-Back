@@ -5,11 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PasswordEmailRequest;
 use App\Http\Requests\UpdateEmailRequest;
-use App\Mail\PasswordResetEmail;
-use App\Mail\UpdateMailEmail;
+use App\Jobs\MailJob;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
 class UserEmailsController extends Controller
@@ -36,7 +34,7 @@ class UserEmailsController extends Controller
 
 		$frontUrl = config('app.front-url') . '?type=reset&reset-link=' . $route;
 
-		Mail::to($user->email)->send(new PasswordResetEmail($frontUrl, $user->name));
+		dispatch(new MailJob($user->email, $frontUrl, $user->name, 'App\Mail\PasswordResetEmail'));
 
 		return response()->json(['message' => 'email sent successfully'], 200);
 	}
@@ -67,7 +65,7 @@ class UserEmailsController extends Controller
 
 		$frontUrl = config('app.front-url') . 'settings?type=email&email-link=' . $route . '&email=' . $data['email'];
 
-		Mail::to($data['email'])->send(new UpdateMailEmail($frontUrl, $user->name));
+		dispatch(new MailJob($data['email'], $frontUrl, $user->name, 'App\Mail\UpdateMailEmail'));
 
 		return response()->json(['message' => 'Update email was sent'], 200);
 	}
