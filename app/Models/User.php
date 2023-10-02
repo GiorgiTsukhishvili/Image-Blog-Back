@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Jobs\MailJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\URL;
@@ -38,7 +39,7 @@ class User extends Authenticatable
 		'password'          => 'hashed',
 	];
 
-	public function sendEmailVerificationMail()
+	public function sendEmailVerificationMail(): void
 	{
 		$token = sha1(time());
 
@@ -57,17 +58,17 @@ class User extends Authenticatable
 		dispatch(new MailJob($this->email, $frontUrl, $this->name, 'App\Mail\UserRegistrationEmail'));
 	}
 
-	public function blogs()
+	public function blogs(): HasMany
 	{
 		return $this->hasMany(Blog::class);
 	}
 
-	public function collections()
+	public function collections(): HasMany
 	{
 		return $this->hasMany(BlogCollection::class);
 	}
 
-	public function subscribers()
+	public function subscribers(): HasMany
 	{
 		return $this->hasMany(Subscribe::class);
 	}

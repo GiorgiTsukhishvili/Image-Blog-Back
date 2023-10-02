@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Subscribe extends Model
 {
@@ -11,12 +12,12 @@ class Subscribe extends Model
 
 	protected $fillable = ['user_id', 'subscribed_id'];
 
-	public function user()
+	public function user(): BelongsTo
 	{
 		return $this->belongsTo(User::class);
 	}
 
-	public function subscribes()
+	public function subscribes(): BelongsTo
 	{
 		return $this->belongsTo(User::class, 'subscribed_id', 'id');
 	}
