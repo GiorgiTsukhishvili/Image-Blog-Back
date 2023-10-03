@@ -7,6 +7,7 @@ use App\Http\Requests\PasswordEmailRequest;
 use App\Http\Requests\UpdateEmailRequest;
 use App\Jobs\MailJob;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\URL;
 
@@ -14,10 +15,14 @@ class UserEmailsController extends Controller
 {
 	public function passwordEmail(PasswordEmailRequest $request): JsonResponse
 	{
-		$user = User::where('email', $request->email)->firstOrFail();
+		try{
+			$user = User::where('email', $request->email)->firstOrFail();
+		}catch(ModelNotFoundException $exception){
+			abort(401, 'Email not found');
+		}
 
 		if (!isset($user->email_verified_at)) {
-			return response()->json(['message' => 'email is not verified'], 404);
+			return response()->json(['message' => 'Email is not verified'], 404);
 		}
 
 		$token = sha1(time());
