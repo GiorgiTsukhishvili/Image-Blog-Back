@@ -15,9 +15,9 @@ class UserEmailsController extends Controller
 {
 	public function passwordEmail(PasswordEmailRequest $request): JsonResponse
 	{
-		try{
+		try {
 			$user = User::where('email', $request->email)->firstOrFail();
-		}catch(ModelNotFoundException $exception){
+		} catch(ModelNotFoundException $exception) {
 			abort(401, 'Email not found');
 		}
 
