@@ -14,7 +14,7 @@ class UserFactory extends Factory
 			'email'             => fake()->unique()->safeEmail(),
 			'email_verified_at' => now(),
 			'background_image'  => asset('assets/png/background.jpg'),
-			'password'          => '12345678', // password
+			'password'          => '12345678',
 			'remember_token'    => Str::random(10),
 			'image'             => asset('assets/png/bear.png'),
 			'google_id'         => null,
