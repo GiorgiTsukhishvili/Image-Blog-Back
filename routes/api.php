@@ -4,6 +4,7 @@ use App\Http\Controllers\BlogCollectionController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubscribeController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\User\UserController;
@@ -29,6 +30,15 @@ Route::prefix('user')->group(function () {
 		Route::post('/', 'store')->name('user.store');
 		Route::post('/password-user', 'passwordUser')->name('user.password_user');
 		Route::put('/{id}', 'put')->name('user.put');
+	});
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+	Route::controller(NotificationController::class)->group(function () {
+		Route::prefix('notifications')->group(function () {
+			Route::get('user-notifications', 'show')->name('notification.show');
+			Route::post('mark', 'markNotification')->name('notification.mark_notification');
+		});
 	});
 });
 
