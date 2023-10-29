@@ -32,4 +32,14 @@ class Notification extends Model
 	{
 		return $this->belongsTo(Blog::class);
 	}
+
+	public function make($userId, $creatorId, $type, $blogId)
+	{
+		$this->create([
+			'user_id'    => $userId,
+			'creator_id' => $creatorId,
+			'type'       => $type,
+			'blog_id'    => $blogId,
+		]);
+	}
 }
