@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LikeOrUnlikeRequest;
 use App\Models\Like;
+use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
 
 class LikeController extends Controller
 {
+	public function __construct(private Notification $notification)
+	{
+	}
+
 	public function index(): JsonResponse
 	{
 		$likes = Like::select(['id', 'blog_id'])

@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SubscribeOrUnsubscribeRequest;
+use App\Models\Notification;
 use App\Models\Subscribe;
 use Illuminate\Http\JsonResponse;
 
 class SubscribeController extends Controller
 {
+	public function __construct(private Notification $notification)
+	{
+	}
+
 	public function index(): JsonResponse
 	{
 		$subscribers = Subscribe::where('user_id', auth()->user()->id)
