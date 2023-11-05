@@ -44,6 +44,8 @@ class SubscribeController extends Controller
 
 		Subscribe::create(['user_id'=> $data['subscribed_to'], 'subscribed_id' => auth()->user()->id]);
 
+		$this->notification->make($data['subscribed_to'], auth()->user()->id, 'subscribe');
+
 		return response()->json(['message' => 'Subscribed successfully'], 200);
 	}
 }

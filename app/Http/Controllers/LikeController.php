@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LikeOrUnlikeRequest;
+use App\Models\Blog;
 use App\Models\Like;
 use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
@@ -34,7 +35,12 @@ class LikeController extends Controller
 			return response()->json(['message' => 'Blog like removed successfully'], 200);
 		}
 
-		Like::create(['user_id' => auth()->user()->id, 'blog_id' => $data['blog_id']]);
+		$like = Like::create(['user_id' => auth()->user()->id, 'blog_id' => $data['blog_id']]);
+
+		$blog = Blog::firstWhere('id', $data['blog_id']);
+
+		$this->notification->make($blog->user_id, auth()->user()->id, 'like', $blog->id);
+
 		return response()->json(['message' => 'Blog liked successfully'], 200);
 	}
 }

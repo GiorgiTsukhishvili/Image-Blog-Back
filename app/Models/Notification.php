@@ -33,7 +33,7 @@ class Notification extends Model
 		return $this->belongsTo(Blog::class);
 	}
 
-	public function make($userId, $creatorId, $type, $blogId)
+	public function make($userId, $creatorId, $type, $blogId = null)
 	{
 		$this->create([
 			'user_id'    => $userId,
