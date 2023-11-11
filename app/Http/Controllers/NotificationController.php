@@ -10,7 +10,7 @@ class NotificationController extends Controller
 {
 	public function show(): JsonResponse
 	{
-		$notifications = Notification::where('user_id', auth()->user()->id)->with(['blog:id,name', 'creator:id,name,image'])->get();
+		$notifications = Notification::where('user_id', auth()->user()->id)->with(['blog:id,title', 'creator:id,name,image'])->get();
 
 		return response()->json($notifications, 201);
 	}
