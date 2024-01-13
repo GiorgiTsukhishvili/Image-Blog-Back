@@ -22,7 +22,7 @@ class UserNotification
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            new PrivateChannel('image-notifications.' . auth()->user()->id),
         ];
     }
 }
