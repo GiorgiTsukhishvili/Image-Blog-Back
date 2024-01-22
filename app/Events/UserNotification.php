@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Notification;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -11,7 +12,7 @@ class UserNotification
 {
 	use Dispatchable, InteractsWithSockets, SerializesModels;
 
-	public function __construct(protected $notification)
+	public function __construct(protected Notification $notification)
 	{
 	}
 

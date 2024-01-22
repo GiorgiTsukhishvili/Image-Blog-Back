@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserNotification;
 use App\Http\Requests\LikeOrUnlikeRequest;
 use App\Models\Blog;
 use App\Models\Like;
@@ -39,7 +40,9 @@ class LikeController extends Controller
 
 		$blog = Blog::firstWhere('id', $data['blog_id']);
 
-		$this->notification->make($blog->user_id, auth()->user()->id, 'like', $blog->id);
+		$notification = $this->notification->make($blog->user_id, auth()->user()->id, 'like', $blog->id);
+
+		UserNotification::dispatch($notification);
 
 		return response()->json(['message' => 'Blog liked successfully'], 200);
 	}
