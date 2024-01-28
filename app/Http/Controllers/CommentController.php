@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserNotification;
 use App\Http\Requests\CommentStoreRequest;
 use App\Models\Blog;
 use App\Models\Comment;
@@ -26,7 +27,9 @@ class CommentController extends Controller
 
 		$blog = Blog::firstWhere('id', $data['blog_id']);
 
-		$this->notification->make($blog->user_id, auth()->user()->id, 'comment', $blog->id);
+		$notification = $this->notification->make($blog->user_id, auth()->user()->id, 'like', $blog->id);
+
+		UserNotification::dispatch($notification);
 
 		return response()->json($comment, 200);
 	}

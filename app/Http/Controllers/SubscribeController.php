@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserNotification;
 use App\Http\Requests\SubscribeOrUnsubscribeRequest;
 use App\Models\Notification;
 use App\Models\Subscribe;
@@ -44,7 +45,9 @@ class SubscribeController extends Controller
 
 		Subscribe::create(['user_id'=> $data['subscribed_to'], 'subscribed_id' => auth()->user()->id]);
 
-		$this->notification->make($data['subscribed_to'], auth()->user()->id, 'subscribe');
+		$notification = $this->notification->make($data['subscribed_to'], auth()->user()->id, 'subscribe');
+
+		UserNotification::dispatch($notification);
 
 		return response()->json(['message' => 'Subscribed successfully'], 200);
 	}
